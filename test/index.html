@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Google Heat Tiles</title>
+  <style>
+    html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+  </style>
+</head>
+<body>
+  <h1>Hello World</h1>
+  <div id="map-canvas"></div>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWxwoKMI8d3DchVngioy6Wel7SoezKeD4"></script>
+
+  <script type="text/javascript" src="./data.js"></script>
+  <script type="text/javascript" src="../bundle.js"></script>
+
+  <script type="text/javascript">
+    var initialize = function() {
+      var mapOptions = {
+        center: { lat: 37.774546, lng: -122.433523 },
+        zoom: 14
+      };
+
+      var map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+
+      window.heatTiles = new HeatTiles(map);
+      heatTiles.setData(taxiData);
+      heatTiles.show();
+    };
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</body>
+</html>
