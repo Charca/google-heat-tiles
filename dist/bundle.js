@@ -117,6 +117,14 @@ module.exports = exports['default'];
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
 var _CoordMapType = require('./coord.js');
 
 var _CoordMapType2 = _interopRequireWildcard(_CoordMapType);
@@ -125,131 +133,151 @@ var _projection = require('mercator-projection');
 
 var _projection2 = _interopRequireWildcard(_projection);
 
-var HeatTiles = function HeatTiles(map, options) {
-  var defaults = {};
-  var i;
-  this.map = map;
-  this._data = [];
-  this._tileData = {};
+var HeatTiles = (function () {
+  function HeatTiles(map, options) {
+    _classCallCheck(this, HeatTiles);
 
-  defaults = {
-    tileSize: 256,
-    opacity: 0.3
-  };
+    var defaults = {};
+    var i;
+    this.map = map;
+    this._data = [];
+    this._tileData = {};
 
-  this.options = defaults;
-  for (i in options) {
-    this.options[i] = options[i];
-  }
+    defaults = {
+      tileSize: 256,
+      opacity: 0.3
+    };
 
-  this.initialize();
-};
-
-HeatTiles.prototype.initialize = function () {
-  var that = this;
-  this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
-
-  google.maps.event.addListener(this.map, 'zoom_changed', function () {
-    //if(that.showHeatMap()) {
-    that._processData();
-    that.update();
-    //}
-  });
-};
-
-HeatTiles.prototype.show = function () {
-  this.map.overlayMapTypes.insertAt(0, new _CoordMapType2['default'](this._size, this));
-  return this;
-};
-
-HeatTiles.prototype.hide = function () {
-  this.map.overlayMapTypes.removeAt(0);
-  return this;
-};
-
-HeatTiles.prototype.update = function () {
-  this.map.overlayMapTypes.setAt(0, new _CoordMapType2['default'](this._size, this));
-  return this;
-};
-
-HeatTiles.prototype.setData = function (data) {
-  this._data = data;
-  this._processData();
-  return this;
-};
-
-HeatTiles.prototype.setOpacity = function (opacity) {
-  this.options.opacity = opacity;
-};
-
-HeatTiles.prototype.getTileData = function () {
-  return this._tileData;
-};
-
-HeatTiles.prototype.getOpacity = function () {
-  return this.options.opacity;
-};
-
-/**
- * Generates a tileData object with the amount of points in each tile.
- *
- * @param {array} data - Array of LatLng Points
- */
-HeatTiles.prototype._processData = function (data) {
-  var coords = '';
-  var tile = {};
-  var tileArray = [];
-  var index = 0;
-  var i;
-
-  if (typeof data !== 'undefined') {
-    this._data = data;
-  }
-
-  this._tileData = {};
-
-  for (i in this._data) {
-    tile = this._fromPointToTileCoord(this._data[i]);
-    coords = tile.x + '_' + tile.y;
-    if (!this._tileData.hasOwnProperty(coords)) {
-      this._tileData[coords] = { q: 0, index: index };
-      index += 1;
+    this.options = defaults;
+    for (i in options) {
+      this.options[i] = options[i];
     }
-    this._tileData[coords].q += 1;
-    tileArray[this._tileData[coords].index] = this._tileData[coords].q;
+
+    this.initialize();
   }
 
-  this._maxPoints = Math.max.apply(null, tileArray);
-  this._minPoints = Math.min.apply(null, tileArray);
+  _createClass(HeatTiles, [{
+    key: 'initialize',
+    value: function initialize() {
+      var that = this;
+      this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
 
-  this._setHeat();
-};
+      google.maps.event.addListener(this.map, 'zoom_changed', function () {
+        //if(that.showHeatMap()) {
+        that._processData();
+        that.update();
+        //}
+      });
+    }
+  }, {
+    key: 'show',
+    value: function show() {
+      this.map.overlayMapTypes.insertAt(0, new _CoordMapType2['default'](this._size, this));
+      return this;
+    }
+  }, {
+    key: 'hide',
+    value: function hide() {
+      this.map.overlayMapTypes.removeAt(0);
+      return this;
+    }
+  }, {
+    key: 'update',
+    value: function update() {
+      this.map.overlayMapTypes.setAt(0, new _CoordMapType2['default'](this._size, this));
+      return this;
+    }
+  }, {
+    key: 'setData',
+    value: function setData(data) {
+      this._data = data;
+      this._processData();
+      return this;
+    }
+  }, {
+    key: 'setOpacity',
+    value: function setOpacity(opacity) {
+      this.options.opacity = opacity;
+    }
+  }, {
+    key: 'getTileData',
+    value: function getTileData() {
+      return this._tileData;
+    }
+  }, {
+    key: 'getOpacity',
+    value: function getOpacity() {
+      return this.options.opacity;
+    }
+  }, {
+    key: '_processData',
 
-HeatTiles.prototype._setHeat = function () {
-  var difference = this._maxPoints - this._minPoints || 1;
-  var greenBalance = 0;
-  var percent = 0;
-  var i;
+    /**
+     * Generates a tileData object with the amount of points in each tile.
+     *
+     * @param {array} data - Array of LatLng Points
+     */
+    value: function _processData(data) {
+      var coords = '';
+      var tile = {};
+      var tileArray = [];
+      var index = 0;
+      var i;
 
-  for (i in this._tileData) {
-    percent = (this._tileData[i].q - this._minPoints) * 100 / difference;
-    greenBalance = Math.round(255 - percent * 2.55);
-    this._tileData[i].green = greenBalance;
-  }
-};
+      if (typeof data !== 'undefined') {
+        this._data = data;
+      }
 
-HeatTiles.prototype._fromPointToTileCoord = function (point) {
-  var latlng = typeof point.lat === 'function' ? { lat: point.lat(), lng: point.lng() } : point;
-  console.log(latlng);
-  var numTiles = 1 << this.map.getZoom();
-  var worldCoordinate = _projection2['default'].fromLatLngToPoint(latlng);
+      this._tileData = {};
 
-  var pixelCoordinate = new google.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
-  var tileCoordinate = new google.maps.Point(Math.floor(pixelCoordinate.x / this.options.tileSize), Math.floor(pixelCoordinate.y / this.options.tileSize));
+      for (i in this._data) {
+        tile = this._fromPointToTileCoord(this._data[i]);
+        coords = tile.x + '_' + tile.y;
+        if (!this._tileData.hasOwnProperty(coords)) {
+          this._tileData[coords] = { q: 0, index: index };
+          index += 1;
+        }
+        this._tileData[coords].q += 1;
+        tileArray[this._tileData[coords].index] = this._tileData[coords].q;
+      }
 
-  return tileCoordinate;
-};
+      this._maxPoints = Math.max.apply(null, tileArray);
+      this._minPoints = Math.min.apply(null, tileArray);
 
-module.exports = HeatTiles;
+      this._setHeat();
+    }
+  }, {
+    key: '_setHeat',
+    value: function _setHeat() {
+      var difference = this._maxPoints - this._minPoints || 1;
+      var greenBalance = 0;
+      var percent = 0;
+      var i;
+
+      for (i in this._tileData) {
+        percent = (this._tileData[i].q - this._minPoints) * 100 / difference;
+        greenBalance = Math.round(255 - percent * 2.55);
+        this._tileData[i].green = greenBalance;
+      }
+    }
+  }, {
+    key: '_fromPointToTileCoord',
+    value: function _fromPointToTileCoord(point) {
+      var latlng = typeof point.lat === 'function' ? { lat: point.lat(), lng: point.lng() } : point;
+      var numTiles = 1 << this.map.getZoom();
+      var worldCoordinate = _projection2['default'].fromLatLngToPoint(latlng);
+
+      var pixelCoordinate = new google.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
+      var tileCoordinate = new google.maps.Point(Math.floor(pixelCoordinate.x / this.options.tileSize), Math.floor(pixelCoordinate.y / this.options.tileSize));
+
+      return tileCoordinate;
+    }
+  }]);
+
+  return HeatTiles;
+})();
+
+exports['default'] = HeatTiles;
+module.exports = exports['default'];
 
 },{"./coord.js":3,"mercator-projection":2}]},{},[1]);
