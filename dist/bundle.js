@@ -138,7 +138,7 @@ var HeatTiles = (function () {
     _classCallCheck(this, HeatTiles);
 
     var defaults = {};
-    var i;
+    var i = undefined;
     this.map = map;
     this._data = [];
     this._tileData = {};
@@ -159,13 +159,14 @@ var HeatTiles = (function () {
   _createClass(HeatTiles, [{
     key: 'initialize',
     value: function initialize() {
-      var that = this;
+      var _this = this;
+
       this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
 
-      google.maps.event.addListener(this.map, 'zoom_changed', function () {
+      google.maps.event.addListener(this.map, 'zoom_changed', function (f) {
         //if(that.showHeatMap()) {
-        that._processData();
-        that.update();
+        _this._processData();
+        _this.update();
         //}
       });
     }
@@ -222,7 +223,7 @@ var HeatTiles = (function () {
       var tile = {};
       var tileArray = [];
       var index = 0;
-      var i;
+      var i = undefined;
 
       if (typeof data !== 'undefined') {
         this._data = data;
@@ -252,7 +253,7 @@ var HeatTiles = (function () {
       var difference = this._maxPoints - this._minPoints || 1;
       var greenBalance = 0;
       var percent = 0;
-      var i;
+      var i = undefined;
 
       for (i in this._tileData) {
         percent = (this._tileData[i].q - this._minPoints) * 100 / difference;

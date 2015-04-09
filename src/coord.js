@@ -5,10 +5,10 @@ class CoordMapType {
   }
 
   getTile(coord, zoom, ownerDocument) {
-    var div = ownerDocument.createElement('div');
-    var coordKey = coord.x + '_' + coord.y;
-    var tileData = this.heatTiles.getTileData();
-    var opacity = this.heatTiles.getOpacity();
+    let div = ownerDocument.createElement('div');
+    let coordKey = coord.x + '_' + coord.y;
+    let tileData = this.heatTiles.getTileData();
+    let opacity = this.heatTiles.getOpacity();
 
     div.innerHTML = coord;
     div.style.width = this.tileSize.width + 'px';
