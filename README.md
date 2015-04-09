@@ -4,9 +4,9 @@ Heatmap tiles for Google Maps
 ##TODO
 - Unit Tests
 - x Uglify
-- Build (Browserify, Gulp?)
+- x Build (Browserify, Gulp?)
 - Code Review
 - Tags, Dist, Releases
-- Bower Support
+- x Bower Support
 - Documentation
 - Github Page

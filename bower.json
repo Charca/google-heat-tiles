@@ -1,0 +1,32 @@
+{
+  "name": "google-heat-tiles",
+  "main": "index.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Charca/google-heat-tiles",
+  "authors": [
+    "Maxi Ferreira <charca@gmail.com> (https://github.com/Charca)"
+  ],
+  "description": "Heatmap tiles for Google Maps",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "google",
+    "maps",
+    "heatmap",
+    "heat",
+    "tiles",
+    "heattiles"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

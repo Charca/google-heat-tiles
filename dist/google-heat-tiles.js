@@ -137,12 +137,13 @@ var _projection = require('mercator-projection');
 var _projection2 = _interopRequireWildcard(_projection);
 
 var HeatTiles = (function () {
-  function HeatTiles(map, options) {
+  function HeatTiles(map, options, google) {
     _classCallCheck(this, HeatTiles);
 
     var defaults = {};
     var i = undefined;
     this.map = map;
+    this.google = google || window.google;
     this._data = [];
     this._tileData = {};
     this._visible = false;
@@ -166,9 +167,9 @@ var HeatTiles = (function () {
     value: function initialize() {
       var _this = this;
 
-      this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
+      this._size = new this.google.maps.Size(this.options.tileSize, this.options.tileSize);
 
-      google.maps.event.addListener(this.map, 'zoom_changed', function (f) {
+      this.google.maps.event.addListener(this.map, 'zoom_changed', function (f) {
         _this._processData();
         if (_this.isVisible()) {
           _this.update();
@@ -285,8 +286,8 @@ var HeatTiles = (function () {
       var numTiles = 1 << this.map.getZoom();
       var worldCoordinate = _projection2['default'].fromLatLngToPoint(latlng);
 
-      var pixelCoordinate = new google.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
-      var tileCoordinate = new google.maps.Point(Math.floor(pixelCoordinate.x / this.options.tileSize), Math.floor(pixelCoordinate.y / this.options.tileSize));
+      var pixelCoordinate = new this.google.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
+      var tileCoordinate = new this.google.maps.Point(Math.floor(pixelCoordinate.x / this.options.tileSize), Math.floor(pixelCoordinate.y / this.options.tileSize));
 
       return tileCoordinate;
     }
