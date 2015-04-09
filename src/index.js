@@ -1,5 +1,5 @@
-var CoordMapType = require('./coord.js');
-var MercatorProjection = require('./mercator.js');
+import CoordMapType from './coord.js';
+import projection from 'mercator-projection';
 
 var HeatTiles = function(map, options) {
   var defaults = {};
@@ -115,9 +115,10 @@ HeatTiles.prototype._setHeat = function() {
 };
 
 HeatTiles.prototype._fromPointToTileCoord = function(point) {
+  var latlng = (typeof point.lat === 'function') ? {lat: point.lat(), lng: point.lng()} : point;
   var numTiles = 1 << this.map.getZoom();
-  var projection = new MercatorProjection(this.options.tileSize);
-  var worldCoordinate = projection.fromLatLngToPoint(point);
+  var worldCoordinate = projection.fromLatLngToPoint(latlng);
+
   var pixelCoordinate = new google.maps.Point(
       worldCoordinate.x * numTiles,
       worldCoordinate.y * numTiles);

@@ -1,0 +1,38 @@
+{
+  "name": "google-heat-tiles",
+  "version": "0.1.0",
+  "description": "Heatmap tiles for Google Maps",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
+    "gulp": "^3.8.11",
+    "jest-cli": "^0.4.0",
+    "mercator-projection": "0.0.2",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Charca/google-heat-tiles.git"
+  },
+  "keywords": [
+    "google",
+    "maps",
+    "heatmap",
+    "heat",
+    "tiles",
+    "heattiles"
+  ],
+  "author": "Maxi Ferreira <charca@gmail.com> (https://github.com/Charca)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Charca/google-heat-tiles/issues"
+  },
+  "homepage": "https://github.com/Charca/google-heat-tiles"
+}
