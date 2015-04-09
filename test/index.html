@@ -7,8 +7,8 @@
   </style>
 </head>
 <body>
-  <h1>Hello World</h1>
   <div id="map-canvas"></div>
+
   <script type="text/javascript"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWxwoKMI8d3DchVngioy6Wel7SoezKeD4"></script>
 
@@ -25,7 +25,7 @@
       var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
-      window.heatTiles = new HeatTiles(map);
+      var heatTiles = new HeatTiles(map);
       heatTiles.setData(taxiData);
       heatTiles.show();
     };

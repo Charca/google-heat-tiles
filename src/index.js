@@ -114,6 +114,9 @@ class HeatTiles {
     this._setHeat();
   }
 
+  /**
+   * Sets the green balance property for each tileData object
+   */
   _setHeat() {
     const difference = this._maxPoints - this._minPoints || 1;
     let greenBalance = 0;
@@ -127,6 +130,12 @@ class HeatTiles {
     }
   }
 
+  /**
+   * Converts a LatLng object to a tile coordinate object
+   *
+   * @param {object} point - LatLng or LatLngLiteral object to convert
+   * @return {object} - Point object with the tile coord
+   */
   _fromPointToTileCoord(point) {
     const latlng = (typeof point.lat === 'function') ? {lat: point.lat(), lng: point.lng()} : point;
     const numTiles = 1 << this.map.getZoom();

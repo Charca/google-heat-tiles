@@ -16,7 +16,8 @@ var google = {
         },
         overlayMapTypes: {
           insertAt: function() {},
-          removeAt: function() {}
+          removeAt: function() {},
+          setAt: function() {}
         }
       };
     },

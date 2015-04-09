@@ -19,7 +19,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "gulp"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
