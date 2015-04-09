@@ -2,16 +2,19 @@ import CoordMapType from './coord.js';
 import projection from 'mercator-projection';
 
 class HeatTiles {
-  constructor(map, options) {
+  constructor(map, options, google) {
     let defaults = {};
     let i;
     this.map = map;
+    this.google = google || window.google;
     this._data = [];
     this._tileData = {};
+    this._visible = false;
 
     defaults = {
       tileSize: 256,
-      opacity: 0.3
+      opacity: 0.3,
+      debug: false
     };
 
     this.options = defaults;
@@ -23,29 +26,39 @@ class HeatTiles {
   }
 
   initialize() {
-    this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
+    this._size = new this.google.maps.Size(this.options.tileSize, this.options.tileSize);
 
-    google.maps.event.addListener(this.map, 'zoom_changed', f => {
-      //if(that.showHeatMap()) {
-        this._processData();
+    this.google.maps.event.addListener(this.map, 'zoom_changed', f => {
+      this._processData();
+      if(this.isVisible()) {
         this.update();
-      //}
+      }
     });
   }
 
   show() {
     this.map.overlayMapTypes.insertAt(0, new CoordMapType(this._size, this));
+    this._visible = true;
     return this;
   }
 
   hide() {
     this.map.overlayMapTypes.removeAt(0);
+    this._visible = false;
     return this;
   }
 
   update() {
     this.map.overlayMapTypes.setAt(0, new CoordMapType(this._size, this));
     return this;
+  }
+
+  isVisible() {
+    return this._visible;
+  }
+
+  isDebug() {
+    return this.options.debug;
   }
 
   setData(data) {
@@ -119,10 +132,10 @@ class HeatTiles {
     const numTiles = 1 << this.map.getZoom();
     const worldCoordinate = projection.fromLatLngToPoint(latlng);
 
-    let pixelCoordinate = new google.maps.Point(
+    let pixelCoordinate = new this.google.maps.Point(
         worldCoordinate.x * numTiles,
         worldCoordinate.y * numTiles);
-    let tileCoordinate = new google.maps.Point(
+    let tileCoordinate = new this.google.maps.Point(
         Math.floor(pixelCoordinate.x / this.options.tileSize),
         Math.floor(pixelCoordinate.y / this.options.tileSize));
 

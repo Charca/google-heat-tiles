@@ -10,12 +10,20 @@
     "babelify": "^6.0.2",
     "browserify": "^9.0.8",
     "gulp": "^3.8.11",
+    "gulp-rename": "^1.2.2",
+    "gulp-streamify": "0.0.5",
+    "gulp-uglify": "^1.1.0",
     "jest-cli": "^0.4.0",
     "mercator-projection": "0.0.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"]
   },
   "repository": {
     "type": "git",

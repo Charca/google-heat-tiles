@@ -3,7 +3,7 @@ Heatmap tiles for Google Maps
 
 ##TODO
 - Unit Tests
-- Uglify
+- x Uglify
 - Build (Browserify, Gulp?)
 - Code Review
 - Tags, Dist, Releases

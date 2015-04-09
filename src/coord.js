@@ -10,7 +10,10 @@ class CoordMapType {
     let tileData = this.heatTiles.getTileData();
     let opacity = this.heatTiles.getOpacity();
 
-    div.innerHTML = coord;
+    if(this.heatTiles.isDebug()) {
+      div.innerHTML = coord;
+    }
+
     div.style.width = this.tileSize.width + 'px';
     div.style.height = this.tileSize.height + 'px';
     div.style.fontSize = '10';

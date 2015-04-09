@@ -90,7 +90,10 @@ var CoordMapType = (function () {
       var tileData = this.heatTiles.getTileData();
       var opacity = this.heatTiles.getOpacity();
 
-      div.innerHTML = coord;
+      if (this.heatTiles.isDebug()) {
+        div.innerHTML = coord;
+      }
+
       div.style.width = this.tileSize.width + 'px';
       div.style.height = this.tileSize.height + 'px';
       div.style.fontSize = '10';
@@ -142,10 +145,12 @@ var HeatTiles = (function () {
     this.map = map;
     this._data = [];
     this._tileData = {};
+    this._visible = false;
 
     defaults = {
       tileSize: 256,
-      opacity: 0.3
+      opacity: 0.3,
+      debug: false
     };
 
     this.options = defaults;
@@ -164,22 +169,24 @@ var HeatTiles = (function () {
       this._size = new google.maps.Size(this.options.tileSize, this.options.tileSize);
 
       google.maps.event.addListener(this.map, 'zoom_changed', function (f) {
-        //if(that.showHeatMap()) {
         _this._processData();
-        _this.update();
-        //}
+        if (_this.isVisible()) {
+          _this.update();
+        }
       });
     }
   }, {
     key: 'show',
     value: function show() {
       this.map.overlayMapTypes.insertAt(0, new _CoordMapType2['default'](this._size, this));
+      this._visible = true;
       return this;
     }
   }, {
     key: 'hide',
     value: function hide() {
       this.map.overlayMapTypes.removeAt(0);
+      this._visible = false;
       return this;
     }
   }, {
@@ -187,6 +194,16 @@ var HeatTiles = (function () {
     value: function update() {
       this.map.overlayMapTypes.setAt(0, new _CoordMapType2['default'](this._size, this));
       return this;
+    }
+  }, {
+    key: 'isVisible',
+    value: function isVisible() {
+      return this._visible;
+    }
+  }, {
+    key: 'isDebug',
+    value: function isDebug() {
+      return this.options.debug;
     }
   }, {
     key: 'setData',

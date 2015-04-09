@@ -9,7 +9,7 @@ if(typeof window !== 'undefined') {
 if(typeof define === 'function' && define.amd) {
   define([], function() {
     return HeatTiles;
-  })
+  });
 }
 
 // CommonJS Support
